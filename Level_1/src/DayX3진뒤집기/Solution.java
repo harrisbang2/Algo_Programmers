@@ -11,7 +11,7 @@ public class Solution {
         for (int i = 0; i <s.length(); i++) {
             new_s += s.charAt(a);
             a--;
-        }
+        }//
         answer= parseInt(new_s,3);
         return answer;
     }
