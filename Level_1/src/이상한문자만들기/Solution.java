@@ -2,7 +2,7 @@ package 이상한문자만들기;
 
 
 public class Solution {
-    public String solution(String s) {
+    public static String solution(String s) {
         String answer = "";
         String[] split = s.split("");
 
