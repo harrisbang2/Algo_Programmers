@@ -1,4 +1,4 @@
-package Level_1_TEMP.푸드파이트;
+package 푸드파이트;
 
 class Solution {
     public String solution(int[] food) {

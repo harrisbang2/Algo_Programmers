@@ -1,4 +1,4 @@
-package Level_1_TEMP.콜라문제;
+package 콜라문제;
 
 class Solution {
     public static int solution(int a, int b, int n) {
