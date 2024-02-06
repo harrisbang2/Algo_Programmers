@@ -16,5 +16,6 @@ class Solution {
     public static void main(String[] args) {
         System.out.println(solution(2,1,20));
     }
+
 }
 
