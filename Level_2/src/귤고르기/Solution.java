@@ -27,7 +27,6 @@ class Solution {
       wanted -= entryList.get(i).getValue();
       answer++;
     }
-
     return answer;
   }
 
