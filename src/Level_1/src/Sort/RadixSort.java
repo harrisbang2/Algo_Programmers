@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class RadixSort {
     public static void main(String args[]) {
-        int inputArray[] = {100, 54, 355, 102, 43, 10, 287, 005};
+        int inputArray[] = {100, 54, 355, 102, 43, 10, 287, 5};
         final int RADIX = 10;
 
         ArrayList<Integer> bucketsArray[] = new ArrayList[RADIX];
