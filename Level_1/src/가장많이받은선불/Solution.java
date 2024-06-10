@@ -23,7 +23,6 @@ class Solution {
             String[] spilt = s.split(" ");
             String sender = spilt[0];  // 보내는 사람
             String receiver = spilt[1]; // 받는 사람
-
             //
             gift_table.get(sender).put(receiver, gift_table.get(sender).getOrDefault(receiver, 0) + 1);
             giftScore.put(sender,giftScore.get(sender) + 1);
