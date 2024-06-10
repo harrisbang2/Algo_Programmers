@@ -11,7 +11,6 @@ public class RadixSort {
         for (int count = 0; count < bucketsArray.length; count++) {
             bucketsArray[count] = new ArrayList<>();
         }
-
         boolean maxDigitsLengthReached = false;
         int temp = -1, placeValue = 1;
         while (!maxDigitsLengthReached) {
