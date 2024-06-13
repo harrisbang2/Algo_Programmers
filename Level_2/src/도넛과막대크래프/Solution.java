@@ -1,110 +1,48 @@
 package 도넛과막대크래프;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Solution {
-    private static List<List<Integer>> graph;
-    private static boolean[] visited;
-    private static int startVertex;
-    private static int maxVertex;
-    private static int graphNum;
-    private static int[] incomingEdges;
-
-    //
+class Solution {
     public int[] solution(int[][] edges) {
-        int[] answer = new int[4];
-        //그래프 초기화
-        initGraph(edges);
-        //시작 정점 찾기 + 전체 그래프 갯수 찾기
-        startVertex = findCreatedVertex();
-        graphNum = graph.get(startVertex).size();
-        answer[0] = startVertex;
-        //시작 정점 연결 끊기.
-        removeEdgesFromCreatedVertex(startVertex);
-        //막대 그래프 갯수 찾기.
-        //들어오는 간선이 없거나, 나가는 간선이 없는 vertex의 갯수이다.
-        answer[2] = countBarGraphs();
+        Map<Integer, int[]> nodeCnt = new HashMap<>();
+        int[] answer = {0, 0, 0, 0};
 
-        //8자모양 그래프 갯수 찾기.
-        //둘어오는 간선 2개, 나가는 간선2개인 vertex의 갯수이다.
-        answer[3] = countEightShape();
-        answer[1] = graphNum - (answer[2] + answer[3]);
+        Arrays.stream(edges).forEach(edge -> {
+            int a = edge[0];
+            int b = edge[1];
+            if(!nodeCnt.containsKey(a)) {
+                nodeCnt.put(a, new int[] {0, 0});
+            }
+            if(!nodeCnt.containsKey(b)) {
+                nodeCnt.put(b, new int[] {0, 0});
+            }
+            // 가는것, 들어오는것 카운터임
+            nodeCnt.get(a)[0] += 1;
+            nodeCnt.get(b)[1] += 1;
+        });
 
-        System.out.println(countIncomingEdges(maxVertex-1));
+        int[] cnts;
+        for(int key : nodeCnt.keySet()) {
+            cnts = nodeCnt.get(key);
+
+            // 들어오션 노드가 없고 나가는 노드가 2개 이상일때 정점이 된다.
+            if(cnts[0] >= 2 && cnts[1] == 0 ) {
+                answer[0] = key;
+                // 들어오는 정점의 개수가 막대 그래프임 개수
+            }else if(cnts[0] == 0 && cnts[1] > 0) {
+                answer[2]++;
+                // 들어오는것 나가는것 각 2개 이상인 점의 개수는 8자 그래프의 개수
+            }else if(cnts[0] >= 2 && cnts[1] >= 2) {
+                answer[3]++;
+            }
+
+        }
+
+        // 점정 나가는 노드 수가 막대와 8자를 제외한것이 도넛 그래프의 개수
+        answer[1] = nodeCnt.get(answer[0])[0] - answer[2] - answer[3];
+
         return answer;
-    }
-
-    private int countIncomingEdges(int vertex) {
-        return incomingEdges[vertex];
-    }
-
-    private int countEightShape() {
-        int count = 0;
-        for (int i = 1; i < graph.size(); i++) {
-            if (!visited[i]) {
-                if (graph.get(i).size() == 2 && countIncomingEdges(i) == 2) {
-                    System.out.println(i);
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    private void removeEdgesFromCreatedVertex(int vertex) {
-        for(int end:graph.get(vertex)){
-            incomingEdges[end]--;
-        }
-        graph.set(vertex, new LinkedList<>());
-    }
-
-    private int findCreatedVertex() {
-        //들어오는 거의 갯수가 없고, 나가는 것만 2개 이상인 점.
-        int createdVertex = -1;
-        for (int i = 1; i < graph.size(); i++) {
-            if (graph.get(i).size() >= 2 && countIncomingEdges(i) == 0) {
-                createdVertex = i;
-                break;
-            }
-        }
-        visited[createdVertex] = true;
-        return createdVertex;
-    }
-
-    //
-    private void initGraph(int[][] edges) {
-        maxVertex = 0;
-        for (int[] edge : edges) {
-            maxVertex = Math.max(maxVertex, Math.max(edge[0], edge[1]));
-        }
-        visited = new boolean[maxVertex + 1];
-        incomingEdges = new int[maxVertex + 1];
-        graph = new ArrayList<>(maxVertex + 1);
-
-        for (int i = 0; i < maxVertex; i++) {
-            graph.add(new LinkedList<>());
-        }
-
-        for (int i = 0; i < edges.length; i++) {
-            graph.get(edges[i][0]).add(edges[i][1]);//단방향 그래프
-            incomingEdges[edges[i][1]]++;
-        }
-
-    }
-    //
-    private int countBarGraphs() {
-        int count = 0;
-        for (int i = 1; i < graph.size(); i++) {
-            if (i == startVertex) {
-                continue;
-            }
-            if (graph.get(i).isEmpty()) {//나가는게 없다.
-                count++;
-                visited[i] = true;
-            }
-        }
-        return count;
     }
 }
