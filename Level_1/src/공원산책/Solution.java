@@ -1,6 +1,5 @@
 package 공원산책;
 
-import java.util.Arrays;
 
 class Solution {
     public int[] solution(String[] park, String[] routes) {
