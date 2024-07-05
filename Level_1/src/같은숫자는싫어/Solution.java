@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Solution {
     public Integer[] solution(int []arr) {
-        int[] answer = {};
+
         List<Integer> list = new ArrayList<>();
         int index = 0;
         for(int a : arr){
@@ -13,7 +13,6 @@ public class Solution {
                 index++;
             }
         }
-
         return list.toArray(new Integer[0]);
     }
 }
