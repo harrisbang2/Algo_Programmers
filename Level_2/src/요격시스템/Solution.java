@@ -15,14 +15,14 @@ class Solution {
         for (int[] target : targets) {
             if (last == -1) {
                 answer++;
-                last = target[1] - 1;
+                last = target[1];
                 continue;
             }
 
-            if (last >= target[0] && last <= target[1]) continue;
+            if (last >= target[0] && last <= target[1]+1) continue;
 
             answer++;
-            last = target[1] - 1;
+            last = target[1];
         }
 
         return answer;
