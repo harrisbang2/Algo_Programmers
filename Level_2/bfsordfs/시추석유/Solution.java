@@ -8,27 +8,26 @@ import java.util.Set;
 
 public class Solution {
 // 가로 길이 세로 길이
-  static int n,m;
+  int length,height;
   static int[] oil;
+
+
   public int solution(int[][] land) {
     int answer = 0;
 
-    n = land.length; // 높이
-    m = land[0].length; // 길이
-    oil = new int[m];
+    height = land.length; // 높이
+    length = land[0].length; // 길이
+    oil = new int[length];
 
-    boolean [][] visited = new boolean[n][m]; // 방문 처리용
+    boolean [][] visited = new boolean[height][length]; // 방문 처리용
 
     // 땅들을 land[][] 하나하나 검사.
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) {
-        /////
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < length; j++) {
         // 만약에 visted 가 아니고, 기름이 있으면!
-        /////
         if(land[i][j] == 1 && !visited[i][j]){
           bfs(land,visited,i,j);
         }
-
       }
     }
 
@@ -37,34 +36,40 @@ public class Solution {
     return answer;
   }
 
+
+
+
+
+
   private void bfs(int[][] land, boolean[][] visited, int i, int j) {
     // queue 를 사용 ques 안에 int[] 배열
     Queue<int[]> q = new LinkedList<>();
     q.add(new int[]{i,j});
-    visited[i][j] = true; // 방문 처리
+    // 방문 처리
+    visited[i][j] = true;
+    // 석유 덩어리의 위치 저장
+    Set<Integer> set = new HashSet<>();
 
-    // 상, 하, 좌, 우 이동 ?????????????
+    // 상, 하, 좌, 우 이동
     int[] dx = {-1, 1, 0, 0};
     int[] dy = {0, 0, -1, 1};
 
     // 석유 덩어리 개수
     int count = 1;
 
-    // 석유 덩어리의 위치 저장
-    Set<Integer> set = new HashSet<>();
 
     while (!q.isEmpty()){ //? queue 가 비워 질때 까지 poll?
       int[] now = q.poll(); // 지금
       set.add(now[1]);
       
       //////////////
-      for (int k = 0; k < 4; k++) { //? 왜 4인가
+      for (int k = 0; k < 4; k++) {
 
         int nx = now[0]+dx[k];
         int ny = now[1]+dy[k];
 
         // 땅 버서나면 생략
-        if(!checkrange(nx, ny)){
+        if(nx < 0 || nx >= height || ny < 0 || ny >= length){
           continue;
         }
         /// 빈땅이거나 방문한적있는 경우!!!
@@ -80,12 +85,5 @@ public class Solution {
     for (int index : set) {
       oil[index] += count;
     }
-  }
-  /// 검색 하다가 땅 벗어나면 오류나는지.
-  private boolean checkrange(int nx, int ny) {
-    if (nx < 0 || nx >= n || ny < 0 || ny >= m) {
-      return false;
-    }
-    return true;
   }
   }
